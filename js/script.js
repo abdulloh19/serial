@@ -160,15 +160,86 @@ tabsParent.addEventListener('click', (evt) => {
 
     const modalTimerId = setTimeout(openModal, 5000)
 
-    // function showModalByScroll() {
-    //     if(
-    //         window.pageYOffset + document.documentElement.clientHeight >= 
-    //         document.documentElement.scrollHeight -1
-    //     ) {
-    //         openModal()
-    //         window.removeEventListener('scroll', showModalByScroll)
-    //     }
-    // }
+    function showModalByScroll() {
+        if(
+            window.pageYOffset + document.documentElement.clientHeight >= 
+            document.documentElement.scrollHeight -1
+        ) {
+            openModal()
+            window.removeEventListener('scroll', showModalByScroll)
+        }
+    }
     
     window.addEventListener('scroll', showModalByScroll)
+
+    // class
+
+    class MenuCard {
+        constructor(src, alt, title, descr, price, parentSelector, ...classes) {
+            this.src = src
+            this.alt = alt
+            this.title = title
+            this.descr = descr
+            this.price = price
+            this.classes = classes
+            this.parent = document.querySelector(parentSelector)
+            this.transfer = 11100
+            this.changeToUzs()
+        }
+
+        changeToUzs() {
+            this.price = this.price * this.transfer
+        }
+
+        render() {
+            const element = document.createElement('div')
+
+            if(this.classes.length === 0) {
+                this.element = 'menu__item'
+                element.classList.add(this.element)
+            } {
+                this.classes.forEach((classname) => element.classList.add(classname))
+            }
+
+            element.innerHTML = `
+            <img src=${this.src} alt=${this.alt} />
+            <h3 class="menu__item-subtitle">${this.title}</h3>
+            <div class="menu__item-descr">${this.descr}</div>
+            <div class="menu__item-divider"></div>
+            <div class="menu__item-price">
+              <div class="menu__item-cost">Price:</div>
+              <div class="menu__item-total"><span>${this.price}</span> uzs/month</div>
+            </div>
+            `
+
+            this.parent.append(element)
+        }
+    }
+
+ new MenuCard(
+    'img/tabs/1.png',
+    'vegy',
+    'Plan "Usual"',
+    'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Fugit nesciunt facere, sequi exercitationem praesentium ab cupiditate beatae debitis perspiciatis itaque quaerat id modi corporis delectus ratione nobis harum voluptatum in.',
+    10,
+    '.menu .container',
+ ).render()
+ new MenuCard(
+    'img/tabs/2.jpg',
+    'elite',
+    'Plan “Premium”',
+    'Lorem ipsum dolor sit amet consectetur adipisicing elit. Itaque aliquid molestiae, sit eveniet, tempora ipsum quaerat recusandae sapiente doloremque corporis dolores quas consectetur ut labore distinctio libero reiciendis harum sequi?',
+    15,
+    '.menu .container',
+    'menu__item'
+ ).render()
+ new MenuCard(
+    'img/tabs/3.jpg',
+    'post',
+    'Plan "VIP"',
+    'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Voluptatibus natus nobis minus corporis atque enim vitae, modi eligendi commodi itaque voluptatum ipsum. Nemo reiciendis, id rem dolorum rerum consequuntur eos.',
+    20,
+    '.menu .container',
+    'menu__item'
+ ).render()
 });
